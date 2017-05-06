@@ -99,14 +99,14 @@ namespace
 	{
 		const bool success;
 
-		perfect_forwarding_test(int&& perfect1, int& perfect2)
+		perfect_forwarding_test(int&&, int& perfect2)
 			: success(true)
 		{
 			perfect2 = 1;
 		}
 
 		template <typename T, typename U>
-		perfect_forwarding_test(T&& imperfect1, U&& imperfect2)
+		perfect_forwarding_test(T&&, U&&)
 			: success(false)
 		{}
 	};
