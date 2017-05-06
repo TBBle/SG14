@@ -124,8 +124,24 @@ namespace sg14
 		type& operator--() noexcept;
 		type operator--(int) noexcept;
 
-		friend type& operator+=(type& it, int i) noexcept;
-		friend type& operator-=(type& it, int i) noexcept;
+		friend type& operator+=(type& it, int i) noexcept
+		{
+			// Example implementation
+			it.m_idx += i;
+			return it;
+		}
+
+		friend type& operator-=(type& it, int i) noexcept
+		{
+			// Example implementation
+			it.m_idex -= i;
+			return it;
+		}
+
+		friend difference_type operator-(const type& lhs, const type& rhs) {
+			// Example implementation
+			return lhs.m_idx - rhs.m_idx;
+		}
 
 		// Example implementation
 	private:
@@ -418,35 +434,23 @@ sg14::ring_iterator<Ring, is_const> sg14::ring_iterator<Ring, is_const>::operato
 }
 
 template <typename Ring, bool is_const>
-sg14::ring_iterator<Ring, is_const>& operator+=(sg14::ring_iterator<Ring, is_const>& it, int i) noexcept
-{
-	it.m_idx += i;
-	return it;
-}
-
-template <typename Ring, bool is_const>
-sg14::ring_iterator<Ring, is_const>& operator-=(sg14::ring_iterator<Ring, is_const>& it, int i) noexcept
-{
-	it.m_idx -= i;
-	return it;
-}
-
-template <typename Ring, bool is_const>
 sg14::ring_iterator<Ring, is_const>::ring_iterator(typename sg14::ring_iterator<Ring, is_const>::size_type idx, std::conditional_t<is_const, const Ring, Ring>* rv) noexcept
 	: m_idx(idx)
 	, m_rv(rv)
 {}
 
-template <typename Ring, bool is_const>
-sg14::ring_iterator<Ring, is_const> operator+(sg14::ring_iterator<Ring, is_const> it, int i) noexcept
-{
-	it += i;
-	return it;
-}
+namespace sg14 {
+	template <typename Ring, bool is_const>
+	sg14::ring_iterator<Ring, is_const> operator+(sg14::ring_iterator<Ring, is_const> it, int i) noexcept
+	{
+		it += i;
+		return it;
+	}
 
-template <typename Ring, bool is_const>
-sg14::ring_iterator<Ring, is_const> operator-(sg14::ring_iterator<Ring, is_const> it, int i) noexcept
-{
-	it -= i;
-	return it;
+	template <typename Ring, bool is_const>
+	sg14::ring_iterator<Ring, is_const> operator-(sg14::ring_iterator<Ring, is_const> it, int i) noexcept
+	{
+		it -= i;
+		return it;
+	}
 }
