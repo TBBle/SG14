@@ -89,7 +89,7 @@ sg14::rsa_encryptor<OutIt>::rsa_encryptor(OutIt&& dest_, int m_, int n_)
 template<typename OutIt>
 sg14::rsa_encryptor<OutIt>& sg14::rsa_encryptor<OutIt>::operator=(const char& element)
 {
-	OutIt::operator=(element + m);
+	OutIt::operator=(element + (char)m);
 	return *this;
 }
 
@@ -103,6 +103,6 @@ sg14::rsa_decryptor<OutIt>::rsa_decryptor(OutIt&& dest_, int m_, int n_)
 template<typename OutIt>
 sg14::rsa_decryptor<OutIt>& sg14::rsa_decryptor<OutIt>::operator=(const char& element)
 {
-	OutIt::operator=(element - m);
+	OutIt::operator=(element - (char)m);
 	return *this;
 }
