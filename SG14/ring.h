@@ -70,9 +70,9 @@ namespace sg14
 		const_iterator end() const noexcept;
 		const_iterator cend() const noexcept;
 
-		template<bool b = true, typename = std::enable_if_t<b && std::is_copy_assignable<T>::value>>
+		template<bool b = true, typename = typename std::enable_if<b && std::is_copy_assignable<T>::value>::type>
 		void push_back(const value_type& from_value) noexcept(std::is_nothrow_copy_assignable<T>::value);
-		template<bool b = true, typename = std::enable_if_t<b && std::is_move_assignable<T>::value>>
+		template<bool b = true, typename = typename std::enable_if<b && std::is_move_assignable<T>::value>::type>
 		void push_back(value_type&& from_value) noexcept(std::is_nothrow_move_assignable<T>::value);
 		template<class... FromType>
 		void emplace_back(FromType&&... from_value) noexcept(std::is_nothrow_constructible<T, FromType...>::value && std::is_nothrow_move_assignable<T>::value);
@@ -101,8 +101,8 @@ namespace sg14
 		using type = ring_iterator<Ring, is_const>;
 		using value_type = typename Ring::value_type;
 		using difference_type = std::ptrdiff_t;
-		using pointer = typename std::conditional_t<is_const, const value_type, value_type>*;
-		using reference = typename std::conditional_t<is_const, const value_type, value_type>&;
+		using pointer = typename std::conditional<is_const, const value_type, value_type>::type*;
+		using reference = typename std::conditional<is_const, const value_type, value_type>::type&;
 		using iterator_category = std::random_access_iterator_tag;
 
 		template <bool C>
@@ -147,9 +147,9 @@ namespace sg14
 	private:
 		friend Ring;
 		using size_type = typename Ring::size_type;
-		ring_iterator(size_type idx, std::conditional_t<is_const, const Ring, Ring>* rv) noexcept;
+		ring_iterator(size_type idx, typename std::conditional<is_const, const Ring, Ring>::type* rv) noexcept;
 		size_type m_idx;
-		std::conditional_t<is_const, const Ring, Ring>* m_rv;
+		typename std::conditional<is_const, const Ring, Ring>::type* m_rv;
 	};
 }
 
@@ -434,7 +434,7 @@ sg14::ring_iterator<Ring, is_const> sg14::ring_iterator<Ring, is_const>::operato
 }
 
 template <typename Ring, bool is_const>
-sg14::ring_iterator<Ring, is_const>::ring_iterator(typename sg14::ring_iterator<Ring, is_const>::size_type idx, std::conditional_t<is_const, const Ring, Ring>* rv) noexcept
+sg14::ring_iterator<Ring, is_const>::ring_iterator(typename sg14::ring_iterator<Ring, is_const>::size_type idx, typename std::conditional<is_const, const Ring, Ring>::type* rv) noexcept
 	: m_idx(idx)
 	, m_rv(rv)
 {}
