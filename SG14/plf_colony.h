@@ -68,7 +68,7 @@
 		#endif
 	#else // Assume type traits and initializer support for non-GCC compilers
 		#define PLF_COLONY_INITIALIZER_LIST_SUPPORT
-		#define PLF_COLONY_TYPE_TRAITS_SUPPORT
+//		#define PLF_COLONY_TYPE_TRAITS_SUPPORT
 	#endif
 
 	#define PLF_COLONY_ALLOCATOR_TRAITS_SUPPORT
