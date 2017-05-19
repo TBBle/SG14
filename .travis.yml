@@ -8,5 +8,24 @@ compiler:
     - clang
     - gcc
 
+# Upgrade gcc and clang, per
+# https://jonasw.de/blog/2015/07/22/develop/cplusplus14-on-travis-with-cmake/
+addons:
+    apt:
+        sources:
+            - llvm-toolchain-trusty-4.0
+            - ubuntu-toolchain-r-test
+
+        packages:
+            - clang-4.0
+            - g++-6
+            - gcc-6
+
+# Redirect compiler to the version we just installed, same URL
+install:
+    - if [ "$CXX" = "g++" ]; then export CXX="g++-6" CC="gcc-6"; fi
+    - if [ "$CXX" = "clang++" ]; then export CXX="clang++-4.0" CC="clang-4.0"; fi
+
 # Configure, build and run.
-script: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug ../cmake && cmake --build . && echo "-1" | ./sg14
+script: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug ../cmake &&
+    cmake --build . && (echo "-1" | ./sg14)
